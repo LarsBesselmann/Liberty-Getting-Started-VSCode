@@ -1,4 +1,4 @@
-# Lab: Getting Started with Liberty and Dev Mode
+# Lab: Using Open Liberty Tools with VS Code
 
 ## Objectives
 
