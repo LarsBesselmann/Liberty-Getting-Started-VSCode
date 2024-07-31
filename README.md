@@ -20,6 +20,8 @@ You will need an estimated **60 to 90 minutes** to complete this lab.
 
   - Use the lab environment that we prepared for this lab. It already has the prerequisite software installed and configured.
     
+  
+
 ## Introduction – Open Liberty Tools extension for VS Code
 
 In a separate lab, you learned how Open Liberty dev mode can be run from a command line while allowing you to edit your code with any text editor or IDE.
@@ -220,6 +222,7 @@ Otherwise, you will need to reserve an environment for the lab. You can obtain o
 |         |           |  
 | ------------- |:-------------|
 | ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Important:</strong> <p><strong>Click CANCEL</strong>…. If, at any time during the lab, you get a pop-up asking to install updated software onto the Ubuntu VM.</p> <p>The one we experience is an update available for VS Code.</p><p><strong>CLICK CANCEL!</strong></p><p>![](./images/media/image15.png?cropResize=100,100)</p> |
+
 
 ## Getting Started with Open Liberty Tools in VS Code
 
@@ -632,7 +635,6 @@ To learn more about the MicroProfile mpHealth feature, visit:
 ![](./images/media/image43.png)
 
 <br/>
-
 
 ### **Running Tests using the Open Liberty Tools in VS Code** 
 
