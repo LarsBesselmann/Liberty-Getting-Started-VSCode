@@ -632,3 +632,177 @@ To learn more about the MicroProfile mpHealth feature, visit:
 ![](./images/media/image43.png)
 
 <br/>
+
+
+### **Running Tests using the Open Liberty Tools in VS Code** 
+
+In this section of the lab, you will make some simple changes to the
+sample application code and run test cases directly from the VS Code IDE
+using the built-in capabilities in the Open Liberty tools.
+
+To simulate a breaking change in the application code, you will modify
+the path to the service endpoint from **/properties** to
+**/all-properties**.
+
+Because the test case attempts to run the system service using the
+**/properties** path, the test case will fail and return an HTTP Code of
+404, rather than the expected response code of 200.
+
+Since the developer is purposely introducing this change, the test case
+needs to be updated to reflect the new path to the service for the tests
+to pass.
+
+1.  Use the Liberty Dev Dashboard to **Run Tests** against the System Properties Sample service.
+    
+    a.  In VS Code, expand the LIBERTY DEV DASHBOARD section
+    
+    b.  Right-mouse click on the **guide-getting-started** Liberty
+        Server
+    
+    c.  Select **Run Test** from the menu to run the tests
+        
+    ![](./images/media/image44.png)
+    
+    d.  In the Terminal view, you will see the results of the tests. One
+        test was executed, and one test PASSED.
+        
+    ![](./images/media/image45.png)
+        
+    <br/>
+
+    Next, as a developer on the project, you have been asked to change the code to specify a different path to the “properties” service. Doing so, has an impact on the tests. In the next few steps, you will make the code change, and update the tests to match the NEW expected results.
+
+    <br/>
+
+2.  Open the **sytemResources.java** in VS Code editor
+    
+    a.  In VS Code Explorer view, expand **START** -> **src** -> **main -> java / io / openliberty / sample / system**
+    
+    b.  Click on **SystemResource.java** to open it in the editor
+        
+    ![](./images/media/image46.png)
+
+    <br/>
+
+3.  Update the **@Path** to the system properties service to specify a different service path
+    
+    a.  From the editor, make the following change to the **systemResource.java** file:
+
+    **Change the highlighted line:**
+ 
+    ![](./images/media/image47.png)
+ 
+    **Updated to read:** @Path("/all-properties")
+ 
+    ![](./images/media/image48.png)
+
+    b.  **SAVE** the file. The Liberty server and application are
+    dynamically updated.
+
+    c.  **Close** the editor view for the **SystemResource.java** file
+
+    <br/>
+
+4.  From the Web browser, run the service using the NEW endpoint URL
+
+    **http://localhost:9080/system/all-properties**
+
+    ![](./images/media/image49.png)
+
+    <br/>
+
+5.  Use the Liberty Dev Dashboard to **Run Tests** against the System Properties Sample service.
+    
+    a.  In VS Code, expand the LIBERTY DEV DASHBOARD section
+    
+    b.  Right-mouse click on the **guide-getting-started** Liberty
+        Server
+    
+    c.  Select **Run Test** from the menu to start the server
+        
+    ![](./images/media/image44.png)
+    
+    d.  Alternatively, you can run the tests by simply pressing the
+        **ENTER** key in the Terminal window. Give it a try. **The tests
+        now FAIL**.
+        
+    ![](./images/media/image50.png)
+
+    <br/>
+
+6. Use the Liberty Dev Dashboard to **View integration test report**.
+    
+    a.  In VS Code, expand the LIBERTY DEV DASHBOARD section
+    
+    b.  Right-mouse click on the **guide-getting-started** Liberty
+        Server
+    
+    c.  Select **View integration test report** from the menu
+        
+    ![](./images/media/image51.png)
+
+    <br/>
+
+7.  View the test results details in the “**guide-getting-started Failsafe report**” that is now displayed the editor pane
+    
+    a.  Notice that the test case failed
+        
+    ![](./images/media/image52.png)
+    
+    b.  Scroll to the bottom of the report to see the ERROR message that
+        was produced from the failing test.
+        
+    ![](./images/media/image53.png)
+    
+    c.  The issue is obvious. Since we changed the endpoint path, the
+        test case assertion failed because it got a HTTP response code
+        of 404 (Not Found) when attempting to run the service using the
+        original path of /properties.
+    
+    d.  **Close** the Failsafe Report in the Editor pane
+        
+    **NOTE:** In this case, we expected the test case to fail. And as the developer, you must update the test case to match the      expected results based on to your code change.
+
+    <br/>
+
+8.  Modify the test case that is included in the application project to invoke the updated path to the service.
+    
+    a.  From the Explorer view in VS Code, navigate to **START** -> **src** -> **test / java / it /io /openliberty / sample**
+    
+    b.  Click on **PropertiesEndpointIT.java** to open it in an editor
+        pane
+    
+    c.  From the editor, make the following change to the
+        **PropertiesEndpointIT.java** file:
+
+    **Change the highlighted line:** “system/properties”
+ 
+    ![](./images/media/image54.png)
+ 
+    **Updated to read:** “system/all-properties”
+ 
+    ![](./images/media/image55.png)
+
+    d.  **SAVE** and **CLOSE** the file. The Liberty server and application are dynamically updated.
+
+    <br/>
+
+9.  Rerun the tests by Pressing the **ENTER** key in the Terminal view. The test PASS.
+    
+    ![](./images/media/image56.png)
+    
+    At this point, you have explored using the Liberty Developer Tools
+    to develop code, make server configuration changes, and run test
+    cases to get immediate feedback on the updates.
+    
+    Using the Open Liberty Tools in VS Code provides an integrated
+    development environment where your updates were automatically
+    detected and dynamically applied to the running server. This
+    provides a rapid inner-loop development cycle for development and
+    testing.
+    
+    In the next section of the lab, you will explore how simple it is to
+    integrate application debugging in the same development environment
+    without having to restart the Liberty server.
+
+    <br/>
