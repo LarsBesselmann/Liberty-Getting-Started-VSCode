@@ -68,7 +68,7 @@ Liberty server and applications.
 
 Maven 3.5.0 or later is recommended to use the Liberty Maven Plugin.
 
-Enabling the Liberty Maven Plugin in your project, simply add the
+To enable the Liberty Maven Plugin in your project, simply add the
 following XML Stanza to your **pom.xml** file.
 
 ![](./images/media/image4.png)
