@@ -381,3 +381,254 @@ First, add the project folder to a VS Code Workspace
     | ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Information:</strong></p><p><strong>Tip:</strong> Additional information on the liberty-maven-plugin can be found here:</p><p><a href="https://github.com/OpenLiberty/ci.maven">https://github.com/OpenLiberty/ci.maven</a></p> |
 
     <br/>
+
+## Using Open Liberty Tools in VS Code 
+
+In this section of the lab, you will use the **Open Liberty Tools i**n
+**VS Code** to work with your code and run tests on demand, so that you
+can get immediate feedback on your changes.
+
+|         |           |  
+| ------------- |:-------------|
+| ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Important:</strong></p><p><strong>For Open Liberty Tools</strong> (LIBERTY DEV DASHBOARD)</p><p>VS Code provides extensions for Java to support the Java language features.</p><p>VS Code for Java supports two modes.</p><ul><li><p>Lightweight mode</p></li><li><p>Standard mode</p></li></ul><p>VS Code has a default configuration called “hybrid mode” where a workspace is opened in Lightweight mode, but as needed, you are prompted to switch to Standard mode.</p><p>The <strong>Tools for MicroProfile</strong> Extension, which is required for the <strong>Open Liberty Tools</strong> extension, requires the Java workspace to be opened in “<strong>STANDARD</strong>” mode. Otherwise the LIBERTY DEV DASHBOARD will not function properly.</p><p><strong>Tip:</strong> In this lab environment, the workspace is already configured to use Standard mode.</p><p>For more details on VS Code for Java is available here: <a href="https://code.visualstudio.com/docs/java/java-project">https://code.visualstudio.com/docs/java/java-project</a></p> |
+
+
+1.  Use the Liberty Dev Dashboard to **start** the Liberty Server in dev mode
+    
+    a.  In VS Code, expand the LIBERTY DEV DASHBOARD section
+    
+    b.  Right-mouse click on the **guide-getting-started** Liberty
+        Server
+    
+    c.  Select **Start** from the menu to start the server
+        
+    ![](./images/media/image28.png)
+    
+    d.  The Terminal view opens, and you see the server log messages as
+        the server starts. When the following message appears in the Terminal, the Liberty server is started.
+        
+    ![](./images/media/image29.png)
+
+    <br/>
+
+2.  Run the system Properties sample application from a web browser
+    
+    a.  Open the Web Browser from inside of the VM
+    
+    b.  Go to <http://localhost:9080> to verify the application is     running.
+        
+    ![](./images/media/image30.png)
+
+    <br/>
+
+### **Developer experience Using Open Liberty Tools in VS Code** 
+
+The System Properties Sample application is up and running in the
+Liberty server.
+
+Next, as a developer, you want to implement a health check for the
+application.
+
+The developer experience is frictionless, as all code and configuration
+change the developer introduces, are automatically detected and the
+server and application are dynamically updated in the running server to
+reflect the updated code and configuration.
+
+Let’s explore a couple of examples of the very efficient developer
+experience by implementing some new capability into our service.
+
+In this example, you will leverage the **mpHealth-2.2** feature in Open
+Liberty, which implements the MicroProfile mpHealth-2.2 API, to
+implement the new health checks for the application.
+
+The **mpHealth-2.2** feature provides a **/health** endpoint that
+represents a binary status, either UP or DOWN, of the microservices that
+are installed.
+
+To learn more about the MicroProfile mpHealth feature, visit:
+<https://www.openliberty.io/docs/21.0.0.4/health-check-microservices.html>
+
+1.  Update the Liberty server configuration file (server.xml) to include the mpHealth-2.2 feature to begin implementing the health checks for the application.
+    
+    a.  In the VS Code Explorer view, navigate to **START** -> **src** -> **main** -> **liberty / config**
+    
+    b.  Click on **server.xml** to open the file in the editor pane
+        
+    ![](./images/media/image31.png)
+    
+    c.  Add the **mpHealth-2.2** feature to the server.xml file using the text below:
+
+        <feature>mpHealth-2.2</feature>
+
+    ![](./images/media/image32.png)
+ 
+    <br/>
+
+    d.  **Save** and **Close** the server.xml file
+    
+    When the server.xml file is saved, the configuration changes are
+    detected, and the server is dynamically updated, installing the new
+    feature and updating the application in the running server.
+
+    <br/>
+
+2.  View the messages in the **Terminal** view, showing the feature being installed and the application being updated.
+    
+    ![](./images/media/image33.png)
+    
+    Once the changes are saved, and the server is automatically updated,
+    the new /**health** endpoint is available.
+
+    <br/>
+
+3.  From the Web browser in the VM access the **/health** endpoint to view the health status of the application.
+
+        http://localhost:9080/health
+
+    ![](./images/media/image34.png)
+
+    <br/>
+
+    Currently, the basic health check provides a simple status indicating if the service is running, but not if it is healthy.
+
+    In the next steps, you will implement a **liveness** check that implements logic that gathers memory and cpu usage information and reports the service DOWN in the health check if the system resources exceed a certain threshold.
+
+    You will also implement a **readiness** check that checks external property configuration in the server.xml file, that is used to place the service in maintenance mode. And if the service is in maintenance mode, the service is marked DOWN from the health check.
+
+    <br/>
+
+4.  Copy an implementation of the **SystemReadinessCheck.java** to the project
+    
+    a.  Open a Terminal window ![](./images/media/image35.png) on      the VM
+    
+    b.  Run the following command to copy the **SystemReadinessCheck.java** to the project
+
+        cp /home/techzone/Student/labs/vscode/guide-getting-started/finish/src/main/java/io/openliberty/sample/system/SystemReadinessCheck.java /home/techzone/Student/labs/vscode/guide-getting-started/start/src/main/java/io/openliberty/sample/system/SystemReadinessCheck.java
+
+
+    |         |           |  
+    | ------------- |:-------------|
+    | ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Information:</strong></p><p>For the purposes of the lab, the copy command above copies a fully implemented Readiness check from the “finished” project, into the current working project.</p> |
+
+
+5.  Review the **SystemReadinessCheck.java i**mplementation
+    
+    a.  Return to the VS Code Explorer view
+    
+    b.  Navigate to **START \> main \> java / io / openliberty / sample
+        / system**
+    
+    c.  Click on the **SystemReadinessCheck.java** file to open it in
+        the editor pane
+        
+    ![](./images/media/image36.png)
+        
+    The SystemReadinessCheck simply evaluates the **“inMaintenance**” ConfigProperty, which is implemented via the mpConfig MicroProfile feature, and configured in the Liberty Server’s server.xml file.
+    
+    - If the “inMaintenance” property is set to “**false**” the
+        readiness check sets the Health Status to **UP**.
+    
+    - If the inMaintenance property is set to “**true**” the status is
+        set to **DOWN**.
+
+    <br/>
+
+6.  From the Web Browser in the VM, rerun the **/health** endpoint to view the health status of the application.
+
+        http://localhost:9080/health
+
+    ![](./images/media/image37.png)
+
+
+    |         |           |  
+    | ------------- |:-------------|
+    | ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Information:</strong></p><p>Did you notice that while implementing the new readiness check code in the application, that you did not have to restart the application or Liberty Server?</p><p>The Open Liberty Tools detected the code changes in the project, and dynamically updated the application in the running server.</p></p> |
+
+7.  Copy an implementation of the **SystemLivenessCheck.java** to the project
+    
+    a  Open a Terminal window ![](./images/media/image35.png) on        the VM
+    
+    b.  Run the following command to copy the **SystemLivenessCheck.java** to the project
+
+        cp /home/techzone/Student/labs/vscode/guide-getting-started/finish/src/main/java/io/openliberty/sample/system/SystemLivenessCheck.java /home/techzone/Student/labs/vscode/guide-getting-started/start/src/main/java/io/openliberty/sample/system/SystemLivenessCheck.java
+
+
+    |         |           |  
+    | ------------- |:-------------|
+    | ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Information:</strong></p><p>For the purposes of the lab, the copy command above copies a fully implemented Liveness check from the “finished” project, into the current working project.</p> |
+
+
+8.  Review the **SystemLivenessCheck.java i**mplementation
+    
+    a.  Return to the VS Code Explorer view
+    
+    b.  Navigate to **START** -> **main** -> **java / io / openliberty / sample / system**
+    
+    c.  Click on the **SystemLivenessCheck.java** file to open it in the
+        editor pane
+        
+    ![](./images/media/image38.png)
+        
+    The SystemLivenessCheck evaluates the **“memory”** and **“cpu”**    resources used.
+        
+      - If the “memory” used is less than 90%, the liveness probe sets
+        the status to UP.
+    
+      - If the “memory” used is greater than 90%, the liveness probe
+        sets the status to DOWN.
+
+    <br/>
+
+9.  From the Web Browser in the VM, rerun the **/health** endpoint to view the health status of the application.
+
+        http://localhost:9080/health
+
+    ![](./images/media/image39.png)
+
+    **Note:** in the case where there are multiple health checks being performed, as in our example, ALL the health checks must have the UP status for the service to be marked UP.
+
+    **So, what happens when we change the inMaintenance property to“true”?**
+
+    Let’s modify the external configuration to set the service in maintenance mode and see the results of the health checks.
+
+    <br/>
+
+10. Modify the inMaintenance property in the server.xml file
+    
+    a.  Return to the VS Code console and navigate to **START** -> **src** -> **main -> liberty / config**
+    
+    b.  Click on **server.xml** to open the file in the editor
+    
+    c.  Modify the inMaintenance variable value to “**true**” as
+        illustrated below
+    
+    d.  **Save** the server.xml file. The server configuration is
+        dynamically updated to reflect the update.
+        
+    ![](./images/media/image40.png)
+
+    <br/>
+
+11. From the Web Browser in the VM, rerun the **/health** endpoint to view the health status of the application.
+
+        http://localhost:9080/health
+
+    ![](./images/media/image41.png)
+
+    <br/>
+
+12. In the server.xml file, change the inMaintenance variable back to false”
+    
+    a.  **Save** the server.xml file
+    
+    b.  **Close** the server.xml editor view
+        
+    ![](./images/media/image42.png)
+
+    <br/> 
+
+13. Rerun the **/health** endpoint to verify the service is now marked UP again.
+    
+![](./images/media/image43.png)
+
+<br/>
