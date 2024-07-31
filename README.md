@@ -208,7 +208,7 @@ Otherwise, you will need to reserve an environment for the lab. You can obtain o
   <br>
 
 <!-- LBH: Added description how to access toolbar -->
-4. Click on the **`Activities`** icon within the VM to switch between different windows or get access the tool bar.
+4. Click on the **Activities** icon within the VM to switch between different windows or get access the tool bar.
     <kbd>![Activities](./images/media/Activies.png)</kbd>
 
     You will see the toolbar.
