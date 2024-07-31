@@ -221,3 +221,163 @@ Otherwise, you will need to reserve an environment for the lab. You can obtain o
 | ------------- |:-------------|
 | ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Important:</strong> <p><strong>Click CANCEL</strong>…. If, at any time during the lab, you get a pop-up asking to install updated software onto the Ubuntu VM.</p> <p>The one we experience is an update available for VS Code.</p><p><strong>CLICK CANCEL!</strong></p><p>![](./images/media/image15.png?cropResize=100,100)</p> |
 
+## Getting Started with Open Liberty Tools in VS Code
+
+**Liberty Dev mode** allows you, as the developer, to focus on your
+code. When Open Liberty is running in dev mode, your code is
+automatically compiled and deployed to the running server, making it
+easy to iterate on your changes.
+
+In this lab, as a developer, you will experience using the **Open
+Liberty Tools** extension in **VS Code** to work with your code, run
+tests on demand, so that you can get immediate feedback on your changes.
+
+You will also work with integrated debugging tools and attach a Java
+debugger to debug your running application.
+
+From a developer perspective, this is a huge gain in efficiency, as all
+these iterative inner-loop development activities occur without ever
+leaving the integrated development environment (IDE).
+
+<br/>
+
+### **Review the VS Code extensions and projects pom.xm file used for this project**
+
+The sample application used in this lab is configured to be built with
+Maven. Every Maven-configured project contains a pom.xml file, which
+defines the project configuration, dependencies, plug-ins, and so on.
+
+Your pom.xml file is in the root directory of the project and is
+configured to include the **liberty-maven-plugin**, which allows you to
+install applications into Open Liberty and manage the server instances.
+
+To begin, navigate to the project directory and review the IDE
+extensions and pom.xml file that is used for the “**system”**
+microservice that is provided in the lab.
+
+First, add the project folder to a VS Code Workspace
+
+1.  **Close** all **Terminal** windows and **Browser** Tabs used in any previous lab.
+
+2.  Use the **Activities** Icon to switch to the toolbar, then click the **Terminal** icon to open a Terminal window.
+
+    <!-- LBH: Updated description how to access toolbar -->
+
+    <kbd>![Toolbar_Terminal](./images/media/Toolbar_Terminal.png)</kbd>
+
+3.  Clone the GitHub repo that includes artifacts required for this lab
+    <!-- LBH: Adjusted lab to use Student folder instead of home to store content -->
+
+        mkdir -p /home/techzone/Student/labs
+
+        git clone https://github.com/openliberty/guide-getting-started.git /home/techzone/Student/labs/vscode
+        
+        cd /home/techzone/Student/labs/vscode
+
+    Once completed, the local lab artifacts repo is cloned at the following directory on the desktop VM. 
+    
+    > **/home/techzone/Student/labs/vscode**
+2.  Navigate to the project directory and launch VS Code from the **start**” folder of the project.
+    
+    a.  Open a terminal window and change to the following directory:
+
+        cd /home/techzone/Student/labs/vscode/guide-getting-started/start
+
+    
+
+3.  Launch VS Code using the current directory as the root folder for
+    the workspace
+
+        code .
+
+    When the VS Code UI launches, the Explorer view is shown. The “START” folder contains the source code for the project.
+
+    ![](./images/media/image16.png)
+
+    <br/>
+
+4.  Review the installed extensions in VS Code that are used for this lab.
+    
+    a.  Click on the **Extensions** icon in the left navigation bar in
+        VS Code.
+        
+    ![](./images/media/image17.png)
+    
+    b.  Expand the “INSTALLED” extensions section to list the extensions that are currently installed in this environment. The notable extensions used in this lab are:
+        
+    -  Open Liberty Tools
+    -  Tools for MicroProfile
+    -  Language Support for Java
+    -  Debugger for Java
+    
+    <br/>
+
+    c.  Click on the “**open Liberty Tools**” extension to view its details.
+    
+    d.  Notice the list of commands that are supported by the Open
+        Liberty Tools extension.
+        
+    ![](./images/media/image18.png)
+    
+    e.  Scroll down to the “**Requirements**” section of the Open
+        Liberty Tools details page.
+        
+    Notice the requirement for “Tools for MicroProfile” to support development of Microservices that use MicroProfile APIs with   Open Liberty.
+        
+    ![](./images/media/image19.png)
+
+
+    |         |           |  
+    | ------------- |:-------------|
+    | ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Information:</strong></p><p>The <strong>Tools for MicroProfile</strong> extension requires the components to be installed in the environment:</p><p><img src="./images/media/image20.png" /></p> |
+
+
+    f.  **Close** the Open Liberty Tools Extension details page.
+
+    <br/>
+
+5.  Review the **pom.xml** file used to configure and build the "system” microservice.
+    
+    a.  Click on the **Explorer** icon ![](./images/media/image21.png) located on the left navigation bar in VS Code.
+    
+    b.  Expand the **START** folder if it is not already expanded
+        
+    ![](./images/media/image22.png)
+    
+    c.  Click on the **pom.xml** file to open it in the editor pane
+    
+    d.  Close any Pop-up boxes asking if you want to install extensions
+        or switch views.
+        
+    **Note:** You may see additional pop-ups, just close them, or    ignore them.
+        
+    ![](./images/media/image23.png)
+    
+    e.  Note the binary packaging of the Java application war file that
+        is produced from the Maven Build. The WAR file produced will be
+        named **guide-getting-started** version 1.0-SNAPSHOT.
+        
+    ![](./images/media/image24.png)
+    
+    f.  Default HTTP and HTTPS Ports are defined, and substituted into
+        the server.xml file
+        
+    ![](./images/media/image25.png)
+    
+    g.  The Open Liberty Tools Plugin is enabled, with a supported   version of 3.3.4
+        
+    ![](./images/media/image26.png)
+    
+    h.  Plugin for running Tests is also added to the Maven       configuration, that leverage the testing dependencies also        defined in the pom.xml file.
+        
+    ![](./images/media/image27.png)
+    
+    i.  **Close** the pom.xml file
+
+    <br/>
+
+    |         |           |  
+    | ------------- |:-------------|
+    | ![](./images/media/image8.png?cropResize=100,100)   | <p><strong>Information:</strong></p><p><strong>Tip:</strong> Additional information on the liberty-maven-plugin can be found here:</p><p><a href="https://github.com/OpenLiberty/ci.maven">https://github.com/OpenLiberty/ci.maven</a></p> |
+
+    <br/>
