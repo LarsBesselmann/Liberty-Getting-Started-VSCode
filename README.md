@@ -1009,5 +1009,6 @@ automatically compiled and deployed to your running server, making it
 easy to iterate on your changes.
 
 **===== END OF LAB =====**
-#   L i b e r t y - G e t t i n g - S t a r t e d - V S C o d e  
+#   L i b e r t y - G e t t i n g - S t a r t e d - V S C o d e 
+ 
  
