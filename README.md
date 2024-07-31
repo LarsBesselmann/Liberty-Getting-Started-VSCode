@@ -806,3 +806,204 @@ to pass.
     without having to restart the Liberty server.
 
     <br/>
+
+## OPTIONAL: Integrated debugging using the Open Liberty Tools in VS Code 
+
+Application debugging is an important part of application development.
+Developers expect to easily and quickly iterate through **dev – test –
+debug** without having to leave the development environment or having to
+restart servers and applications for debugging.
+
+In this section of the lab, you will explore how easy it is for
+developers to debug their Java application using the integrated
+development environment and Open Liberty.
+
+**<span class="underline">Here are the basics steps for
+debugging</span>**
+
+  - Set a breakpoint in the source code
+
+  - Add a “Java Attach” in the launch configuration and set the debug
+    port
+
+  - Go to Debug view and select the “Attach” configuration
+
+  - Click the Start debugging icon
+
+  - Run the application in the Browser
+
+  - The application stops at the breakpoint
+
+  - Step through the app in debug mode to explore the variables and code
+    to resolve issues
+    
+  One of the key features of Visual Studio Code is its great debugging
+    support.
+    
+  In this section of the lab, you will use VS Code debigger to debug   the Java application running on Liberty server.
+    
+  ![](./images/media/image57.png)
+    
+  In this scenario, you will set a breakpoint and debug the SystemLivenessCheck.java code that is executed when running the /health endpoint in the application.
+
+
+1.  Open the **SystemLivenessCheck.java** in VS Code editor
+    
+    a.  In VS Code Explorer view, expand **START** -> **src** -> **main** -> **java / io / openliberty / sample / system**
+    
+    b.  Click on **SystemLivenessCheck.java** to open it in the editor
+        
+    ![](./images/media/image58.png)
+
+    <br/>
+
+2.  Set a breakpoint in the code where the **MemoryMaxBean** variable is set
+    
+    a.  Locate the line with the text:
+        
+    **MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();**
+    
+    b.  **Left-mouse click** on the left side of the Line Number (31 in
+        the screen shot) to set a breakpoint. A red dot will appear, indicating the breakpoint is set
+        
+    ![](./images/media/image59.png)
+
+    <br/>
+
+3.  Create a new **Java Attach configuration** and specify the debug port **7777**
+    
+    a.  Select **Run > Add Configuration…** from the main menu in VS
+        Code
+        
+    ![](./images/media/image60.png)
+        
+    A new file named **launch.json** file was created in the **.vscode** directory. You can see the new file in the explorer       view.
+    
+    b.  In the **launch.json** file that opened in the Editor view,
+        click on the “**Add Configuration**” button located on the lower
+        right corner of the screen.
+        
+    ![](./images/media/image61.png)
+    
+ 
+    c.  Select **Java: Attach** from the menu.
+        
+    ![](./images/media/image62.png)
+    
+    d.  A new configuration is added to the launch.json file, that includes a “**port”** parameter to attach the debugger for Open    Liberty.
+        
+    **Note:** Open Liberty is configured to use debug port 7777 by
+        default.
+        
+    ![](./images/media/image63.png)
+
+    <br/>
+
+4.  Change the “port” parameter to 7777
+    
+    a.  From the editor, make the following change to the **lauch.json**
+        file:
+
+    **Change the highlighted line:** "port": "<debug port of the debugger>"
+
+    ![](./images/media/image64.png)
+ 
+    **Updated to read:** “port”: 7777
+ 
+    **Note”** Be sure to REMOVE the double quotes around 7777, as illustrated below.
+
+    ![](./images/media/image65.png)
+
+    b.  **SAVE and CLOSE** the file. The Liberty server and application are dynamically updated.
+
+    <br/>
+
+5.  Now, attach the new Java Attach configuration
+
+    a.  Switch to the **Debug** perspective in VS Code, by selecting the
+    **Debug Icon** on the left side navigation menu
+    
+    ![](./images/media/image66.png)
+
+    b.  Using the launch Drop-down menu in the Debug perspective, set the **Launch action** to the “**Attach**” configuration that you
+    created.
+    
+    ![](./images/media/image67.png)
+
+    
+    c.  The “Attach” configuration is now selected. You are ready to debug.
+    
+    ![](./images/media/image68.png)
+
+    <br/>
+
+6.  Click on the **Start** Icon to start the debugger.
+    
+    ![](./images/media/image69.png)
+    
+    The debugger is now attached, and the CALL STACK and BREAKPOINTS are
+    displayed in the Debug perspective, as illustrated below:
+    
+    ![](./images/media/image70.png)
+
+    <br/>
+
+7.  From the Web Browser in the VM, run the **/health** endpoint to view the health status of the application. The application will stop at the breakpoint in the SystemLivenessCheck.java code.
+
+        http://localhost:9080/health
+
+    In VS Code’s Debugger perspective, the application stopped at the breakpoint you set in the SystemLivenessCheck.java, as illustrated below.
+
+    ![](./images/media/image71.png)
+
+    <br/>
+
+8.  Now you can use the “step Over”, “Step In” “Step Out”,” Run” or “Disconnect” actions.
+
+    a.  Click the “**Step Over**” to execute the existing line of code and step to the next line of code in the application.
+    
+    ![](./images/media/image72.png)
+
+    <br/>
+
+9.  When you are finished stepping through the debugger and exploring the local variables, click the **Disconnect**” icon to disconnect the debugger
+    
+    ![](./images/media/image73.png)
+
+    <br/>
+
+10. Use the Liberty Dev Dashboard to **STOP** the Liberty Server in dev mode
+    
+    a. In VS Code, switch back to the **Explorer** view
+    
+    b.  Expand the LIBERTY DEV DASHBOARD section
+    
+    c.  Right-mouse click on the **guide-getting-started** Liberty
+        Server
+    
+    d.  Select **Stop** from the menu to stop the server
+        
+    ![](./images/media/image74.png)
+
+    <br/>
+
+11. **Exit** the VS Code UI
+    
+    a.  Select **File \> Exit** from the main menu in VS Code to Exit  the UI
+
+    <br/>
+
+12. **Close** all opened **Terminal** Windows and **Browser** tabs
+
+Congratulations! You have successfully used the **Liberty Dev VS Code
+extension** to start Open Liberty in development mode, make changes to
+your application and Liberty server configuration while the server is
+up, run tests and view results, and even debug the application without
+leaving the editor.
+
+As you explored the fast and efficient inner-loop development experience
+using the Open Liberty tools and VS Code IDE, your code was
+automatically compiled and deployed to your running server, making it
+easy to iterate on your changes.
+
+**===== END OF LAB =====**
